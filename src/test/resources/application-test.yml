@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jewelry_invoicing
+    username: invoicing
+    password: invoicing
+  flyway:
+    enabled: true
