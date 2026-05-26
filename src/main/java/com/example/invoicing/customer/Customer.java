@@ -28,4 +28,8 @@ public class Customer extends Auditable {
 
     @Column(length = 500)
     private String address;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 }

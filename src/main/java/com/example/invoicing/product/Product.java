@@ -33,4 +33,8 @@ public class Product extends Auditable {
 
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 }

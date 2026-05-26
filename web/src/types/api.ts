@@ -1,5 +1,16 @@
 export type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'PAID' | 'CANCELLED'
 
+/** Spring Data `PagedModel` envelope returned by the list endpoints. */
+export interface Page<T> {
+  content: T[]
+  page: {
+    size: number
+    number: number
+    totalElements: number
+    totalPages: number
+  }
+}
+
 export interface ApiErrorBody {
   timestamp: string
   status: number

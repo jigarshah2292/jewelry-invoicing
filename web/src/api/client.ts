@@ -19,7 +19,14 @@ async function parseJson<T>(response: Response): Promise<T> {
   if (!text) {
     return undefined as T
   }
-  return JSON.parse(text) as T
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    // Non-JSON body (e.g. an HTML error page from a proxy or gateway). Treat as
+    // "no parseable body" so the caller maps the HTTP status instead of throwing
+    // an opaque SyntaxError.
+    return undefined as T
+  }
 }
 
 export async function apiRequest<T>(
