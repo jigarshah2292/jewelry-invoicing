@@ -4,12 +4,14 @@ import com.example.invoicing.invoice.dto.InvoiceRequest;
 import com.example.invoicing.invoice.dto.InvoiceResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/invoices")
@@ -19,8 +21,8 @@ public class InvoiceController {
     private final InvoiceService service;
 
     @GetMapping
-    public List<InvoiceResponse> list() {
-        return service.findAll();
+    public PagedModel<InvoiceResponse> list(@PageableDefault(size = 50, sort = "id") Pageable pageable) {
+        return new PagedModel<>(service.findAll(pageable));
     }
 
     @GetMapping("/{id}")

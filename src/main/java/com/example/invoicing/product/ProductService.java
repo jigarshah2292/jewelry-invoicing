@@ -4,10 +4,10 @@ import com.example.invoicing.common.exception.ResourceNotFoundException;
 import com.example.invoicing.product.dto.ProductRequest;
 import com.example.invoicing.product.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +17,8 @@ public class ProductService {
     private final ProductRepository repository;
 
     @Transactional(readOnly = true)
-    public List<ProductResponse> findAll() {
-        return repository.findAll().stream().map(ProductResponse::from).toList();
+    public Page<ProductResponse> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(ProductResponse::from);
     }
 
     @Transactional(readOnly = true)

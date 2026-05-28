@@ -4,12 +4,14 @@ import com.example.invoicing.customer.dto.CustomerRequest;
 import com.example.invoicing.customer.dto.CustomerResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customers")
@@ -19,8 +21,8 @@ public class CustomerController {
     private final CustomerService service;
 
     @GetMapping
-    public List<CustomerResponse> list() {
-        return service.findAll();
+    public PagedModel<CustomerResponse> list(@PageableDefault(size = 50, sort = "id") Pageable pageable) {
+        return new PagedModel<>(service.findAll(pageable));
     }
 
     @GetMapping("/{id}")

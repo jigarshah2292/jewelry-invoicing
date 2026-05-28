@@ -49,6 +49,10 @@ public class Invoice extends Auditable {
     @Column(length = 1000)
     private String notes;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<InvoiceLineItem> lineItems = new ArrayList<>();
@@ -56,9 +60,5 @@ public class Invoice extends Auditable {
     public void addLineItem(InvoiceLineItem item) {
         item.setInvoice(this);
         this.lineItems.add(item);
-    }
-
-    public void clearLineItems() {
-        this.lineItems.clear();
     }
 }

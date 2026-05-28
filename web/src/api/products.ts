@@ -1,8 +1,9 @@
 import { apiRequest } from './client'
-import type { Product, ProductRequest } from '../types/api'
+import type { Product, ProductRequest, Page } from '../types/api'
 
 export const productsApi = {
-  list: () => apiRequest<Product[]>('/products'),
+  list: () =>
+    apiRequest<Page<Product>>('/products').then((page) => page.content),
   get: (id: number) => apiRequest<Product>(`/products/${id}`),
   create: (payload: ProductRequest) =>
     apiRequest<Product>('/products', {

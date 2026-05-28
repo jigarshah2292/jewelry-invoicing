@@ -1,8 +1,9 @@
 import { apiRequest } from './client'
-import type { Invoice, InvoiceRequest } from '../types/api'
+import type { Invoice, InvoiceRequest, Page } from '../types/api'
 
 export const invoicesApi = {
-  list: () => apiRequest<Invoice[]>('/invoices'),
+  list: () =>
+    apiRequest<Page<Invoice>>('/invoices').then((page) => page.content),
   get: (id: number) => apiRequest<Invoice>(`/invoices/${id}`),
   create: (payload: InvoiceRequest) =>
     apiRequest<Invoice>('/invoices', {
